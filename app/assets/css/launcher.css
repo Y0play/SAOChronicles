@@ -222,7 +222,7 @@ body, button {
     align-items: center;
     height: 100%;
     width: 100%;
-    background: rgba(0, 0, 0, 0.50);
+    background: rgba(104, 104, 104, 0.28);
 }
 
 #welcomeContent {
@@ -2500,6 +2500,12 @@ input:checked + .toggleSwitchSlider:before {
     line-height: 24px;
     left: 50px;
 }
+#content {
+    background-image: url("../images/image.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin-top: 5%;
+}
 #landingContainer > #lower > #center {
     position: relative;
     transition: top 2s ease;
@@ -3024,16 +3030,6 @@ input:checked + .toggleSwitchSlider:before {
     -webkit-user-select: initial;
 }
 
-/* Social media icon content container. */
-#mediaContent {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin-top: 25px;
-    height: calc(100% - 95px);
-    width: 70px;
-    align-items: center;
-}
 
 /* Social Media Icon division containers. */
 #internalMedia, #externalMedia {
@@ -3136,42 +3132,6 @@ input:checked + .toggleSwitchSlider:before {
     transition-delay:0s;
 }
 
-/* X icon colors. */
-#xSVG:hover,
-#xURL:focus #xSVG {
-    fill: #000000;
-}
-#xSVG:active {
-    fill: #090909;
-}
-
-/* Instagram icon colors. */
-#instagramSVG:hover,
-#instagramURL:focus #instagramSVG {
-    fill: url('#instaFill')
-    /*fill: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); */
-}
-#instagramSVG:active {
-    fill: url('#instaFill')
-}
-
-/* Youtube icon colors. */
-#youtubeSVG:hover,
-#youtubeURL:focus #youtubeSVG {
-    fill: #f00;
-}
-#youtubeSVG:active {
-    fill: #ea0202;
-}
-
-/* Discord icon colors. */
-#discordSVG:hover,
-#discordURL:focus #discordSVG {
-    fill: #7288d9;
-}
-#discordSVG:active {
-    fill: #657ac4;
-}
 
 /*******************************************************************************
  *                                                                             *
@@ -3919,6 +3879,7 @@ input:checked + .toggleSwitchSlider:before {
     justify-content: center;
     width: 100%;
     height: calc(100% - 22px);
+    
 }
 
 /* Loading content container. */
@@ -3962,7 +3923,154 @@ input:checked + .toggleSwitchSlider:before {
     }
 }
 
-/* Class which is applied when the spinner image is spinning. */
-.rotating {
-    animation: rotating 10s linear infinite;
+/* ===========================================================
+   SAO — Landing-only skin (ne modifie que la page principale)
+   =========================================================== */
+#landingContainer{
+  /* Variables locales au landing uniquement */
+  --panel-w: 340px;          /* largeur bande gauche */
+  --right-pad: 80px;         /* gouttière à droite pour icônes */
+  --glass: rgba(104, 104, 104, 0.24);
+  --glass-weak: rgba(255,255,255,.045);
+  --border: rgba(255, 255, 255, 0.155);
+  --border-strong: rgba(255,255,255,.28);
+  --cyan: rgba(236, 199, 237, 1);
+  --radius-md: 12px;
+  --blur: 10px;
+  --t: .25s ease;
+  --sh-1: 0 10px 30px rgba(0,0,0,.35);
+  --sh-2: 0 6px 18px rgba(0,0,0,.28);
 }
+
+/* ====== Structure haute : 3 colonnes ====== */
+#landingContainer > #upper{
+  position:relative; height:100%; display:flex; top:0; transition:top 1.2s ease;
+}
+#landingContainer > #upper > #left{
+  position:relative; z-index:2; display:inline-flex;
+  width:var(--panel-w); min-width:var(--panel-w); height:100%;
+  justify-content:flex-end;
+}
+/* Bande gauche en verre dépoli */
+#landingContainer > #upper > #left::before{
+  content:""; position:absolute; inset:0;
+  background: var(--glass); border-right:1px solid var(--border);
+  backdrop-filter: blur(var(--blur)); box-shadow: 6px 0 24px rgba(0,0,0,.35);
+  pointer-events:none; z-index:0;
+}
+#landingContainer > #upper > #content{
+  display:inline-flex; width: calc(100% - var(--panel-w) - var(--right-pad)); height:100%;
+}
+#landingContainer > #upper > #right{
+  display:inline-flex; width: var(--right-pad); height:100%;
+}
+
+/* ====== Logo SAO (image sur le container) ====== */
+#landingContainer #image_seal{ display:none !important; } /* évite l'<img> cassée */
+#landingContainer #image_seal_container{
+  position:absolute; top:-15px; left:84px; z-index:4;
+  width:170px; height:168px;
+  background: url("../images/Logo.png") no-repeat left top / contain;
+  border:0 !important; border-radius:0 !important; box-shadow:none !important;
+}
+/* coupe aura/tooltip éventuel */
+#landingContainer #updateAvailableTooltip{ display:none !important; }
+#landingContainer #image_seal_container[update]::before,
+#landingContainer #image_seal_container[update]::after{ display:none !important; }
+
+/* ====== Deux cartes grises + points ====== */
+#landingContainer > #upper > #left::after{
+  /* carte 1 */
+  content:""; position:absolute; left:20px; top:232px; z-index:1;
+  width: calc(var(--panel-w) - 40px); height:150px;
+  border-radius: var(--radius-md);
+  background: var(--glass-weak); border:1px solid var(--border); box-shadow: var(--sh-1);
+}
+#landingContainer > #upper > #left > *::before{
+  /* carte 2 */
+  content:""; position:absolute; left:-64px; top:360px; z-index:1;
+  width: calc(var(--panel-w) - 40px); height:150px;
+  border-radius: var(--radius-md);
+  background: var(--glass-weak); border:1px solid var(--border); box-shadow: var(--sh-1);
+}
+/* points de pagination */
+#landingContainer > #upper > #left > *::after{
+  content:""; position:absolute; left:50%; transform:translateX(-50%);
+  top:530px; height:6px; width:6px; border-radius:50%;
+  background: rgba(255,255,255,.35);
+  box-shadow: 12px 0 0 rgba(255,255,255,.35), -12px 0 0 var(--cyan);
+  z-index:1;
+}
+
+/* ====== Bas : gradient + bouton JOUER ====== */
+#landingContainer > #lower{
+  height:23%; display:flex;
+  background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0));
+}
+/* Masque l’ancien contenu bas gauche/centre qui chevauche */
+#landingContainer > #lower > #left #content,
+#landingContainer > #lower > #center{ display:none !important; }
+
+/* Bouton PLAY façon capture (gris, arrondi) */
+#landingContainer #launch_button{
+  position: fixed; left:102; bottom:51px; z-index:3;
+  width:132px; height:42px; display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(180deg, #2b2f36, #1c2027);
+  border:1px solid var(--border); border-radius:10px;
+  color:#e7ebf2 !important; font-weight:700; font-size:14px; letter-spacing:.15em;
+  box-shadow: var(--sh-2); text-shadow:none !important; padding:0; transition: var(--t);
+}
+#landingContainer #launch_button:hover{
+  transform: translateY(-1px);
+  border-color: var(--border-strong);
+  background: linear-gradient(180deg, #3a404a, #222833);
+  box-shadow: 0 0 18px rgba(0,200,255,.28);
+}
+/* Neutralise l’ancien wrapper du bouton */
+#landingContainer > #lower > #right #launch_content{
+  position: static !important; width:0 !important; height:0 !important; overflow:visible !important;
+}
+/* Et masque la progression héritée */
+#landingContainer #launch_details,
+#landingContainer #launch_progress,
+#landingContainer #launch_progress_label,
+#landingContainer #launch_details_text,
+#landingContainer #server_selection_button{
+  display:none !important;
+}
+
+/* ====== Profil + barre d’icônes (haut-droite) ====== */
+#landingContainer #rightContainer{
+  position:absolute; right:22px; top:22px; align-items:flex-end; height:auto;
+}
+#landingContainer #avatarOverlay{ display:none !important; } /* pas de “Edit” */
+#landingContainer #avatarContainer{
+  height:40px; width:40px; border:2px solid rgba(255,255,255,.6); border-radius:50%;
+  background: rgba(0,0,0,.35); box-shadow:none;
+}
+#landingContainer #user_text{
+  position:relative; right:52px; top:0; min-width:auto;
+  font-size:12px; letter-spacing:1px; text-shadow:0 1px 1px rgba(0,0,0,.4);
+}
+
+/* barre verticale d’icônes */
+#landingContainer #mediaContent{
+  position:absolute; right:0px; top:76px; width:46px; margin:0;
+  display:flex; flex-direction:column; align-items:center; gap:12px; height:auto;
+}
+#landingContainer #settingsTooltip{ display:none !important; }  /* supprime “etting” */
+#landingContainer .mediaContainer{ height:auto; }
+#landingContainer .mediaButton{
+  width:36px; height:36px; border-radius:50%;
+  background: rgba(0,0,0,.45); border:1px solid var(--border);
+  backdrop-filter: blur(6px); box-shadow: var(--sh-2);
+  display:flex; align-items:center; justify-content:center; padding:0; transition: var(--t);
+}
+#landingContainer .mediaButton:hover{
+  transform: translateY(-1px);
+  border-color: var(--border-strong);
+  box-shadow: 0 0 14px rgba(0,200,255,.35);
+}
+#landingContainer .mediaSVG{ height:18px; width:18px; fill:#fff; }
+
+

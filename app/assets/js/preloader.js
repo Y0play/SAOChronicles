@@ -6,9 +6,9 @@ const path           = require('path')
 const ConfigManager  = require('./configmanager')
 const { DistroAPI }  = require('./distromanager')
 const LangLoader     = require('./langloader')
-const { LoggerUtil } = require('helios-core')
+const { LoggerUtil } = require('Helios-core')
 // eslint-disable-next-line no-unused-vars
-const { HeliosDistribution } = require('helios-core/common')
+const { HeliosDistribution } = require('Helios-core/common')
 
 const logger = LoggerUtil.getLogger('Preloader')
 
@@ -44,10 +44,10 @@ function onDistroLoad(data){
 
 // Ensure Distribution is downloaded and cached.
 DistroAPI.getDistribution()
-    .then(heliosDistro => {
+    .then(HeliosDistro => {
         logger.info('Loaded distribution index.')
 
-        onDistroLoad(heliosDistro)
+        onDistroLoad(HeliosDistro)
     })
     .catch(err => {
         logger.info('Failed to load an older version of the distribution index.')
